@@ -5,8 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//define connection information to mongodb
+//either the MONGOLAB_URI environment variable from heroku or the local
+var mongouri = process.env.MONGOLAB_URI || 'localhost:27017/th-warehouse'
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk(mongouri);
+
+//import local modules for dynamic web resources
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var warehouse = require('./routes/warehouse');
 
 var app = express();
 
@@ -22,8 +31,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//pass db connection into app
+//not really certain how next() is working, but just going with it
+//must look up express docs to understand better
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+});
+
+//define actual uri paths for local web resource modules
 app.use('/', routes);
 app.use('/users', users);
+app.use('/warehouse', warehouse);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
