@@ -39,12 +39,14 @@ router.post('/initequipment', function(req,res){
         res.send({msg:'Equipment Init Already Complete.'})
       } else {
         //no equipment found, we need to init
+        //not sure if this filepath is best practice when using static location
         fs.readFile('public/json/equipment.json', function(err, data){
           if (err){
             res.send({msg:err});
           } else {
             //equipArray = data.toString();
-            console.log(JSON.parse(data.toString()));
+            //take read file buffer, convert to string, then JSON
+            //should maybe test buffer.json()
             collection.insert(JSON.parse(data.toString()), function(err, result){
               res.send((err === null ) ? {msg: ''} : {msg: err});
             });
