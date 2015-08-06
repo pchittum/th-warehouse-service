@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 //define connection information to mongodb
 //either the MONGOLAB_URI environment variable from heroku or the local
@@ -31,11 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//pass db connection into app
-//not really certain how next() is working, but just going with it
-//must look up express docs to understand better
+//middleware function to pass db connection and fs into req var
+//could have passed fs as conditional based on warehouse route
 app.use(function(req,res,next){
   req.db = db;
+  req.fs = fs;
   next();
 });
 
@@ -74,6 +75,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
