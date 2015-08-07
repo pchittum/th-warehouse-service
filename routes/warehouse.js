@@ -16,6 +16,19 @@ router.get('/getallequipment', function(req, res){
   });
 });
 
+router.get('/equipment/:id', function(req, res){
+  var db = req.db;
+  var collection = db.get(equipmentCollName);
+
+  var eqId = new require('mongodb').ObjectID(req.params.id);
+  console.log(eqId);
+
+  collection.find({'_id':eqId},{},function(e,docs){
+    console.log(docs);
+    res.json(docs);
+  });
+});
+
 router.post('/addequipment', function(req, res){
   var db = req.db;
   var collection = db.get(equipmentCollName);
