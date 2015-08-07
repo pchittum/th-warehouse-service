@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
+var mongo = require('mongodb');
 
 var equipmentCollName = 'equipment';
 
-/* GET users listing. */
+/* base warehouse url */
 router.get('/', function(req, res, next) {
   res.send('yo');
 });
 
+//fetch all equipment in that collection
 router.get('/getallequipment', function(req, res){
   var db = req.db;
   var collection = db.get(equipmentCollName);
@@ -16,18 +18,23 @@ router.get('/getallequipment', function(req, res){
   });
 });
 
+//fetch a single equipment record by its id value
 router.get('/equipment/:id', function(req, res){
   var db = req.db;
   var collection = db.get(equipmentCollName);
 
-  var eqId = new require('mongodb').ObjectID(req.params.id);
+  var eqId = req.params.id;
   console.log(eqId);
 
-  collection.find({'_id':eqId},{},function(e,docs){
+  //must test with findOne
+  collection.find({"_id":eqId},{},function(e,docs){
     console.log(docs);
     res.json(docs);
   });
 });
+
+//add a query REST endpoint where we can search for fields that equal a value
+//for querystring params, use req.query.<paramname>
 
 router.post('/addequipment', function(req, res){
   var db = req.db;
