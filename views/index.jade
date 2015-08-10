@@ -5,5 +5,9 @@ block content
   p Welcome to #{title}
   p This is the web app for the Trailhead Developer Superbadge Apex Challenges. The following REST requests are supported.
   p
-    pre GET /warehouse/getallequipment
-  p 
+    pre GET /warehouse/getallequipment (return all equipment records)
+  p
+    pre GET /warehouse/equpiment/id (return one equipment record by its source DB id value)
+  p
+    pre GET /warehouse/query?from=<object-name>&where=<fieldname>=<value>
+    p Currently this supports only equality operator, and only AND. But for the purposes of this Trailhead exercise, this is sufficient.
