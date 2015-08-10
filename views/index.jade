@@ -7,7 +7,9 @@ block content
   p
     pre GET /warehouse/getallequipment (return all equipment records)
   p
-    pre GET /warehouse/equpiment/id (return one equipment record by its source DB id value)
+    pre GET /warehouse/equipment/id (return one equipment record by its source DB id value)
   p
-    pre GET /warehouse/query?from=<object-name>&where=<fieldname>=<value>
-    p Currently this supports only equality operator, and only AND. But for the purposes of this Trailhead exercise, this is sufficient.
+    pre GET /warehouse/query?from=&lt;object-name&gt;&amp;where=&lt;fieldname&gt;=&lt;value&gt;
+    p Currently this supports only equality operator, and only AND. But for the purposes of this Trailhead exercise, this is sufficient. For example:
+    ul
+      li /warehouse/query?from=equipment,where=replacement=true,
